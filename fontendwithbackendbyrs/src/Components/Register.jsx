@@ -19,24 +19,19 @@ const Register = () => {
         event.preventDefault();
         if (userData.userKaName && userData.userKaEmail && userData.userKaPassword && userData.userKaNumber) {
             if (userData.userKaPassword.length >= 8) {
-                // if (userData.userKaEmail === axios.response.data.message) {
                 try {
                     const response = await axios.post("http://localhost:8000/app/v1/auth/register", { userData })
 
-                    // console.log(response.data, 'response.data')
-
                     if (response.data.success) {
-                        // alert('data submitted')
                         toast.success('Registration Successful');
                         setUserData({ userKaName: "", userKaEmail: "", userKaPassword: "", userKaNumber: "" })
                         route('/')
                     }
                     else {
-                        toast.error(response.data.message || 'Registration Failed')
+                        toast.error(error.data.message || 'Registration Failed')
                     }
                 } catch (error) {
-                    toast.error('error during registration')
-                    console.error(error)
+                    toast.error(error.response.data.message)
                 }
             }
             else {
